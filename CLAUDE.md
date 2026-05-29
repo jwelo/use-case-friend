@@ -27,6 +27,19 @@ python scripts/retrieve_use_cases.py --query "..." --top-k 5
 
 There is no test suite, linter, or build step configured.
 
+## Project context
+
+This repo is the **Python retrieval** half of HTX's operational innovation triage system. The other half is an **offline government chatbot** (no API, used manually) that asks clarifying questions and emits a structured analysis with sections: `Problem Summary`, `Root Causes`, `Capabilities Needed`, `Technology Domains`, `Possible Non-AI Alternatives`, `Stakeholders`, `Suggested Follow-Up Questions`. An analyst pastes that output here; this system embeds it and retrieves similar prior use cases from ChromaDB. **Capabilities Needed** is the most semantically load-bearing field. The workflow is human-in-the-loop, not autonomous.
+
+Current priority: embeddings pipeline → retrieval → **retrieval quality evaluation**. No UI work yet.
+
+### Constraints
+
+- Stay local/offline-capable — `all-MiniLM-L6-v2` was chosen for this reason. Do not suggest hosted embedding APIs.
+- Python 3.12.
+- Do not introduce: autonomous agents, LangGraph, multi-agent systems, fine-tuning, heavy orchestration. LangChain only if light. Streamlit/Teams integration are possible later, not now.
+- Keep the stack minimal and government/enterprise-friendly.
+
 ## Architecture
 
 Two-stage RAG-style pipeline over a small Excel dataset of operational use cases:
