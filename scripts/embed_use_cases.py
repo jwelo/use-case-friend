@@ -61,7 +61,8 @@ def main() -> None:
 	if not args.excel.exists():
 		raise FileNotFoundError(f"Excel file not found: {args.excel}")
 
-	df = pd.read_excel(args.excel, sheet_name=args.sheet)
+	sheet_name = args.sheet if args.sheet is not None else 0
+	df = pd.read_excel(args.excel, sheet_name=sheet_name)
 	_validate_columns(df, ["ID", "Title", "Description"])
 	df = df.dropna(subset=["ID", "Title", "Description"], how="all").copy()
 
